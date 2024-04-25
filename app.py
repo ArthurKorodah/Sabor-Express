@@ -1,6 +1,8 @@
 import os
 
-restaurantes = ['PizzaPie','MolhoDoBom']
+restaurantes = [{'nome': 'PizzaPie', 'categoria': 'pizza', 'ativo': False},
+                {'nome': 'MolhoDoBom', 'categoria': 'italiano', 'ativo': True},
+                {'nome': 'SoulShii', 'categoria': 'japones', 'ativo': False}]
 
 def exibir_nome_programa():
     print('''
@@ -23,8 +25,7 @@ def exibir_menu_inicial():
 
 def opcao_invalida():
     print('Opção inválida! Escolha uma das opções listadas acima.')
-    input('Aperte ENTER para voltar ao menu inicial.')
-    main()
+    voltar_menu_inicial()
 
 def voltar_menu_inicial():
     input('\nAperte [ENTER] para voltar ao menu inicial.')
@@ -42,29 +43,32 @@ def cadastrar_novo_restaurante():
 def listar_restaurantes():
     os.system('clear')
     print('Listando Restaurantes.\n')
-    for nome_restaurante in restaurantes:
-        print(f'- {nome_restaurante}')
+    for restaurante in restaurantes:
+        nome_restaurante = restaurante['nome']
+        categoria = restaurante['categoria']
+        ativo = restaurante['ativo']
+        print(f' - {nome_restaurante} | {categoria} | {ativo}\n')
     voltar_menu_inicial()
+
 
 def opcao_escolhida():
     try:
+        opcao_escolhida = int(input('Escolha uma opção:\n'))
         #Modo1 print('Você escolheu a opção ' + opção_escolhida + '.')
         #Modo2 print(f'Você escolheu a opção {opção_escolhida}')
         #opção_escolhida = input('Escolha uma opção:\n')
-        opção_escolhida = int(input('Escolha uma opção:\n'))
         #Transformar a var 'str' do input em 'int'
-
-        if opção_escolhida == 1:
-            print('Cadastrar Restaurante.')
-            cadastrar_novo_restaurante()
-        elif opção_escolhida == 2:
-            listar_restaurantes()
-        elif opção_escolhida == 3:
-            print('Ativar Restaurante.')
-        elif opção_escolhida == 4:
-            finalizar_app()
-        else:
-            opcao_invalida()
+        match opcao_escolhida:
+            case 1:
+                cadastrar_novo_restaurante()
+            case 2:
+                listar_restaurantes()
+            case 3:
+                print('Ativar Restaurante.\n')
+            case 4:
+                finalizar_app()
+            case _:
+                opcao_invalida()
     except:
         opcao_invalida()
 
